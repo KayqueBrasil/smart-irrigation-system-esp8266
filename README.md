@@ -1,15 +1,20 @@
 # Smart Irrigation System (ESP8266)
 
 IoT-based smart irrigation system using ESP8266 and a soil moisture sensor.
-This project automatically activates irrigation (currently simulated with a relay + LED) based on soil humidity levels.
+This project automatically activates irrigation (currently simulated with a relay + LED) based on soil humidity levels while also monitoring environmental temperature and air humidity.
 
 ---
 
 ## Overview
 
-This system monitors soil moisture and controls irrigation automatically.
+This system monitors soil moisture, temperature, and air humidity to control irrigation automatically.
 
 When the soil becomes too dry (below a defined threshold), the system activates a relay, simulating the irrigation process. When the soil moisture returns to acceptable levels, the system turns irrigation off.
+
+The DHT22 sensor provides environmental monitoring by measuring:
+
+* Temperature
+* Air humidity
 
 Currently, irrigation is represented by an LED connected to a relay module.
 
@@ -18,6 +23,8 @@ Currently, irrigation is represented by an LED connected to a relay module.
 ## Features
 
 * Soil moisture monitoring
+* Temperature monitoring with DHT22
+* Air humidity monitoring with DHT22
 * Automatic relay control (irrigation simulation)
 * Serial output for debugging and monitoring
 * ESP8266-based embedded system
@@ -31,6 +38,13 @@ The irrigation decision is based on a simple threshold:
 * If soil moisture **< 30% → Irrigation ON**
 * If soil moisture **≥ 30% → Irrigation OFF**
 
+Additionally, the system continuously reads:
+
+* Ambient temperature
+* Air humidity
+
+using the DHT22 sensor.
+
 ---
 
 ## Technologies Used
@@ -38,6 +52,7 @@ The irrigation decision is based on a simple threshold:
 * ESP8266
 * Arduino Framework
 * Soil Moisture Sensor (analog)
+* DHT22 Sensor
 * Relay Module
 * C++
 * PlatformIO
@@ -68,6 +83,7 @@ The irrigation decision is based on a simple threshold:
 
 * ESP8266 (NodeMCU 1.0 - ESP12E)
 * Capacitive Soil Moisture Sensor
+* DHT22 Temperature and Humidity Sensor
 * Relay module
 * LED (for simulation)
 * BreadBoard
@@ -75,6 +91,7 @@ The irrigation decision is based on a simple threshold:
 ### Behavior:
 
 * Sensor reads soil moisture
+* DHT22 reads temperature and air humidity
 * ESP8266 processes the value
 * Relay is triggered based on threshold
 * LED indicates irrigation status
@@ -83,14 +100,16 @@ The irrigation decision is based on a simple threshold:
 
 ## How It Works
 
-1. The system reads soil moisture using `medirUmidade()`
-2. Compares with threshold (30%)
-3. Updates relay state:
+1. The system reads soil moisture using `medirUmidadeSolo()`
+2. Reads temperature using medirTemperatura()
+3. Reads air humidity using medirUmidadeAr()
+4. Compares with threshold (30%)
+5. Updates relay state:
    
    * Activates irrigation if soil is dry
    * Deactivates when moisture is sufficient
      
-4. Prints status via Serial Monitor
+6. Prints status via Serial Monitor
 
 ---
 
@@ -99,7 +118,6 @@ The irrigation decision is based on a simple threshold:
 * Add water pump (real irrigation)
 * Wi-Fi monitoring (ESP8266)
 * MQTT integration
-* Include DHT22 (temperature and air umidity)
 * Adjustable threshold via app
 * Data logging
 
