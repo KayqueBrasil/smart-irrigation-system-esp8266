@@ -1,9 +1,14 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// === Configurações Gerais ===
+// === Geral Config ===
+// Pin defitions to sensors and actuators
+// INPUTS
+#define SENSOR_UMIDSOLO A0  // Moisture sensor connected to analog pin A0
+#define DHT_PIN 5           // DHT sensor connected to digital pin 5
+#define DHT_TYPE DHT22      // Type of DHT sensor
 
-#define SENSOR_UMIDSOLO A0// Ativar o sensor de umidade do solo
-#define RELEPIN 13// Ativar o relé para controle de irrigação
+// OUTPUTS
+#define RELEPIN 13          // Relay pin for irrigation control
 
 #endif 
