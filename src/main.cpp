@@ -63,6 +63,7 @@ void loop() {
 
       if (umidadeSolo <= 25.0)
       {
+        statusRele = 0;
         break; // Exit the loop if the soil moisture is less than or equal to 25%
       }
     }
