@@ -4,6 +4,7 @@
 // === Sensors ===
 // Moisture sensor, definition functions
 float medirUmidadeSolo();
+void iniciarUmidadeSolo();
 
 // Temperature and humidity from DHT22 sensor, definition functions
 void iniciarDHT();

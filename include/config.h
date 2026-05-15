@@ -10,5 +10,6 @@
 
 // OUTPUTS
 #define RELEPIN 13          // Relay pin for irrigation control
+#define UMID_SOLO_VCC 4     // Power pin for soil moisture sensor
 
 #endif 

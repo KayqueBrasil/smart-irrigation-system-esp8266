@@ -5,14 +5,29 @@
 
 // Function to return soil moisture percentage
 float medirUmidadeSolo() {
-    // Reads the analog value from the soil moisture sensor
-    int valorAnalogico = analogRead(SENSOR_UMIDSOLO);
+    digitalWrite(UMID_SOLO_VCC, HIGH); // Power on the soil moisture sensor
+    delay(100); // Wait for the sensor to stabilize 
+    int seco = 788;
+    int molhado = 341;
 
-    // Converts the analog value to a moisture percentage (0 to 100%)
-    float umidade = 100.0 - (valorAnalogico / 1023.0) * 100.0;
+    int valor = analogRead(SENSOR_UMIDSOLO);
 
+    float umidade = ((float)(valor - seco) / (molhado - seco)) * 100.0;
+
+    umidade = 100.0 - umidade;
+
+    if (umidade > 100) umidade = 100;
+    if (umidade < 0) umidade = 0;
+
+    digitalWrite(UMID_SOLO_VCC, LOW); // Power off the soil moisture sensor
     return umidade;
 }
+
+void iniciarUmidadeSolo() {
+    pinMode(UMID_SOLO_VCC, OUTPUT);
+    digitalWrite(UMID_SOLO_VCC, LOW);
+}
+
 
 // Initialize DHT sensor
 DHT dht(DHT_PIN, DHT_TYPE);
