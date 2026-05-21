@@ -21,8 +21,7 @@ Currently, irrigation is simulated using:
 * Relay module
 * LED indicator
 
-The system was developed using the ESP8266 platform with modularized firmware architecture.
-
+The firmware was developed using a modular embedded architecture with non-blocking timing logic based on millis().
 ---
 
 ## Features
@@ -32,11 +31,11 @@ The system was developed using the ESP8266 platform with modularized firmware ar
 * Air humidity monitoring with DHT22
 * Automatic irrigation control
 * Relay-based irrigation simulation
-* Serial Monitor debugging output
-* Sensor-powered GPIO protection technique
-* Hysteresis-based irrigation logic
-* Modular embedded architecture
-
+* MQTT communication support
+* GPIO-powered soil sensor protection
+* Hysteresis-based irrigation control
+* Non-blocking timing system using millis()
+* Modular firmware architecture
 ---
 
 ## Control Logic
@@ -50,15 +49,15 @@ The system uses hysteresis to avoid constant relay switching and unstable irriga
 
 ### Irrigation Thresholds
 
-* Soil Moisture > 55%  → Irrigation ON
-* Soil Moisture <= 25% → Irrigation OFF
+* Soil Moisture > 65%  → Irrigation ON
+* Soil Moisture <= 40% → Irrigation OFF
 
 ### Irrigation Pulse System
 
 Instead of keeping irrigation continuously active, the system operates using irrigation pulses:
 
 * Relay ON  → 2 seconds
-* Relay OFF → 1 second
+* Relay OFF → 10 second
 * Re-evaluate soil moisture
 
 ### This strategy helps:
@@ -66,7 +65,7 @@ Instead of keeping irrigation continuously active, the system operates using irr
 * Prevent over-irrigation
 * Allow water absorption by the soil
 * Improve moisture reading accuracy
-Reduce unnecessary relay activation
+* Reduce unnecessary relay activation
 
 ---
 
@@ -79,7 +78,7 @@ This improves measurement accuracy because analog soil sensors typically do not 
 
 ### GPIO-Powered Soil Sensor
 
-The soil moisture sensor is powered directly by a GPIO pin instead of constant VCC power.
+The capacitive soil moisture sensor is powered directly from a GPIO pin instead of remaining permanently connected to VCC.
 
 The sensor is energized only during measurements.
 
@@ -90,16 +89,35 @@ Advantages
 * Reduces power consumption
 
 ---
+## MQTT Communication
+
+The system supports MQTT communication for remote monitoring and IoT integration.
+
+Sensor data currently published:
+
+* Soil moisture
+* Ambient temperature
+* Air humidity
+
+This enables integration with:
+
+* Home Assistant
+* Node-RED
+* IoT dashboards
+* Cloud monitoring systems
+
+---
 
 ## Technologies Used
 
 * ESP8266 (NodeMCU 1.0 ESP-12E)
 * Arduino Framework
+* C++
+* PlatformIO
+* MQTT Protocol
 * Capacitive Soil Moisture Sensor
 * DHT22 Sensor
 * Relay Module
-* C++
-* PlatformIO
 
 ---
 
@@ -108,13 +126,20 @@ Advantages
 ```
 .
 ├── src/
-│   └── main.cpp
-│   └── sensor.cpp
-│   └── rele.cpp
+│   ├── main.cpp
+│   ├── sensores.cpp
+│   ├── rele.cpp
+│   ├── mqtt.cpp
+│   └── wifi.cpp
+│
 ├── include/
 │   ├── config.h
-│   ├── sensor.h
-│   └── rele.h
+│   ├── sensores.h
+│   ├── rele.h
+│   ├── mqtt.h
+│   └── wifi.h
+│
+├── .gitignore
 ├── platformio.ini
 └── README.md
 ```
@@ -125,25 +150,27 @@ Advantages
 
 ### Components:
 
-* ESP8266 (NodeMCU 1.0 - ESP12E)
+* ESP8266 (NodeMCU 1.0 - ESP-12E)
 * Capacitive Soil Moisture Sensor
 * DHT22 Temperature and Humidity Sensor
 * Relay module
-* LED (for simulation)
+* LED (simulation)
 * BreadBoard
-* Jumpers and Resistor
+* Jumpers
+* Resistor
 
 ---
 
-## Behavior:
+## System Workflow
 
 1. Read soil moisture
 2. Read ambient temperature
 3. Read air humidity
-4. Compare soil moisture with thresholds
-5. Activate irrigation if soil is dry
-6. Continuously re-evaluate moisture during irrigation
-7. Stop irrigation when moisture reahes safe levels
+4. Publish sensor data via MQTT
+5. Compare soil moisture against thresholds
+6. Active irrigation if soil is dry
+7. Continuosly re-avaluate mosutre during irrigation
+8. Stop irrigation when sage moisture levels are reached
 
 ---
 
@@ -152,9 +179,9 @@ Advantages
 ## Future Improvements
 
 * Real water pump integration
-* MQTT communication
+* StreamLit Dashboards with Python
 * Data logging
-* State machine architecture
+* Finite State Machine (FSM) architecture
 
 ---
 
