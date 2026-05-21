@@ -3,9 +3,10 @@
 
 void iniciarRele() {
     pinMode(RELEPIN, OUTPUT);
-    digitalWrite(RELEPIN, LOW); // Garante que o relé comece desligado
+    digitalWrite(RELEPIN, LOW); // Grants the relay is off at the start
 }
 
-void ativacaoRele(bool estado) {
-    digitalWrite(RELEPIN, estado ? 1 : 0);
-}
+bool utilizarRele(bool estado) {
+    digitalWrite(RELEPIN, estado ? HIGH : LOW); // Turn on the relay if estado is true, otherwise turn it off
+    return estado; // Return the current state of the relay
+}   

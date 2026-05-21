@@ -2,6 +2,6 @@
 #define RELE_H
 
 void iniciarRele();
-void ativacaoRele(bool estado);
+bool utilizarRele(bool estado);
 
 #endif
