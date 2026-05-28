@@ -22,6 +22,8 @@ Currently, irrigation is simulated using:
 * LED indicator
 
 The firmware was developed using a modular embedded architecture with non-blocking timing logic based on millis().
+
+The project also implements a complete IoT monitoring architecture using MQTT, Mosquitto Broker, and Node-RED Dashboard for real-time wireless monitoring.
 ---
 
 ## Features
@@ -36,6 +38,11 @@ The firmware was developed using a modular embedded architecture with non-blocki
 * Hysteresis-based irrigation control
 * Non-blocking timing system using millis()
 * Modular firmware architecture
+* Real-time Node-RED dashboard
+* Wireless monitoring via local network
+* MQTT publish/subscribe architecture
+* Mobile dashboard access
+* Real-time telemetry visualization
 ---
 
 ## Control Logic
@@ -106,6 +113,58 @@ This enables integration with:
 * IoT dashboards
 * Cloud monitoring systems
 
+## MQTT Architecture
+
+ESP8266 -> Mosquitto Broker -> Node-RED Dashboard
+
+### Example MQTT Topics
+
+* irrigacao/sensor/umidade_solo
+* irrigacao/sensor/temperatura
+* irrigacao/sensor/umidade_ar
+
+---
+
+## Node-RED Dashboard
+
+A real-time dashboard was developed using Node-RED Dashboard.
+
+The dashboard provides:
+
+* Real-time soil moisture visualization
+* Ambient temperature monitoring
+* Air humidity monitoring
+* Mobile access through local network
+* Real-time MQTT updates
+
+<img width="958" height="943" alt="image" src="https://github.com/user-attachments/assets/ef9f1ca3-a28d-4d02-9411-4515a908b4cd" />
+
+---
+
+## MQTT Broker
+
+The system uses Eclipse Mosquitto as the MQTT broker for message distribution.
+
+The broker is responsible for:
+
+* Receiving sensor data from ESP8266
+* Managing MQTT topics
+* Delivering messages to Node-RED subscribers
+* Enabling real-time IoT communication
+
+---
+
+## IoT Architecture
+
+The project follows a distributed IoT architecture composed of:
+
+* Embedded sensing device (ESP8266)
+* MQTT communication layer
+* Broker-based messaging system
+* Real-time dashboard visualization
+
+This architecture improves scalability, modularity, and future cloud integration possibilities.
+
 ---
 
 ## Technologies Used
@@ -115,6 +174,8 @@ This enables integration with:
 * C++
 * PlatformIO
 * MQTT Protocol
+* Eclipse Mosquitto
+* Node-RED
 * Capacitive Soil Moisture Sensor
 * DHT22 Sensor
 * Relay Module
@@ -167,10 +228,11 @@ This enables integration with:
 2. Read ambient temperature
 3. Read air humidity
 4. Publish sensor data via MQTT
-5. Compare soil moisture against thresholds
-6. Active irrigation if soil is dry
-7. Continuosly re-avaluate mosutre during irrigation
-8. Stop irrigation when sage moisture levels are reached
+5. Update Node-RED dashboard
+6. Compare soil moisture against thresholds
+7. Active irrigation if soil is dry
+8. Continuosly re-avaluate mosutre during irrigation
+9. Stop irrigation when sage moisture levels are reached
 
 ---
 
